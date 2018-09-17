@@ -94,6 +94,13 @@
                             @else
                                 <label for="company_id"><b>Company Name</b></label>
                                 @endif
+                            
+                            @if(!empty($registration_no))
+                                <label for="company_id"><b>Registration Number</b></label>
+                                {{ $registration_no }}
+                            @else
+                                <label for="company_id"><b>Registration Number</b></label>
+                                @endif
                         </div>
                     </div>
                 </div>
