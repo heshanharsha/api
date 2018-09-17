@@ -108,9 +108,10 @@
                             <!-- company address -->
                             @if(!empty($address1))
                                 <label for="company_id"><b>Address</b></label>
-                                {{ address1 }}
-                                {{ address2}}
-                                {{ city}}
+                                {{ $address1 }}
+                                {{ $address2 }}
+                                {{ $city }}
+                                
                             @else
                                 <label for="company_id"><b>Address</b></label>
                             @endif
