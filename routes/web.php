@@ -22,7 +22,7 @@ Route::prefix( '/admin/' )->group( function () {
 } );
 
 
-// company incoporation
+// company incoporation route
 Route::prefix( '/admin/' )->group( function () {
     Route::get( 'viewform', 'AdminController@viewform' )->name( 'admin-viewform' );
     Route::get( 'getcompanydetails', 'AdminController@getcompanydetails' )->name( 'admin-getcompanydetails' );
