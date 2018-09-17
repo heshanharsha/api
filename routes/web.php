@@ -24,7 +24,7 @@ Route::prefix( '/admin/' )->group( function () {
 
 // company incoporation route
 Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'viewform', 'AdminController@viewform' )->name( 'admin-viewform' );
-    Route::get( 'getcompanydetails', 'AdminController@getcompanydetails' )->name( 'admin-getcompanydetails' );
+    Route::get( 'civiewform', 'CompanyIncorporationController@civiewform' )->name( 'admin-civiewform' );
+    Route::get( 'getcidetails', 'CompanyIncorporationController@getcidetails' )->name( 'admin-getcidetails' );
 } );
 

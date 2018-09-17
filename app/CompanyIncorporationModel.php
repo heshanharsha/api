@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyIncorporation extends Model
+class CompanyIncorporationModel extends Model
 {
     protected $table = 'eroc_companies';
     protected $primaryKey = "id";
