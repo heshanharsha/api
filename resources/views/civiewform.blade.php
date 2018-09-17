@@ -88,19 +88,35 @@
                 <div class="row">
                     <div class="col-md-8 offset-2">
                         <div class="form-group">
+                            <!-- company name -->
                             @if(!empty($companyname))
                                 <label for="company_id"><b>Company Name</b></label>
                                 {{ $companyname }}
                             @else
                                 <label for="company_id"><b>Company Name</b></label>
-                                @endif
-                            
+                             @endif
+                             <br>
+                            <!-- company registration number -->
                             @if(!empty($registration_no))
                                 <label for="company_id"><b>Registration Number</b></label>
                                 {{ $registration_no }}
                             @else
                                 <label for="company_id"><b>Registration Number</b></label>
-                                @endif
+                            @endif
+                            <br>
+
+                            <!-- company address -->
+                            @if(!empty($address1))
+                                <label for="company_id"><b>Address</b></label>
+                                {{ address1 }}
+                                {{ address2}}
+                                {{ city}}
+                            @else
+                                <label for="company_id"><b>Address</b></label>
+                            @endif
+                            <br>
+
+
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\CompanyIncorporationModel;
 use App\CompanyCertificate;
+use App\Addresses;
+
 use Illuminate\Http\Request;
 
 class CompanyIncorporationController extends Controller
@@ -15,12 +17,25 @@ class CompanyIncorporationController extends Controller
     public function getcidetails( Request $request ) {
         $id = $request->input( 'company_id' );
 
+        // company name
         $company = CompanyIncorporationModel::where( 'id',$id )->first();
         $companyname  = $company->name;
 
+        // company registration number
         $companycertificate = CompanyCertificate::where('company_id',$id)->first();
         $registration_no = $companycertificate->registration_no;
 
-        return view( 'civiewform', [ 'companyname' => $companyname, 'registration_no' => $registration_no,] );
+        // company address
+        $address_id_in_companies_table = CompanyIncorporationModel::where( 'address_id',$id )->first();
+        //$address_id_in_address_table = Addresses::where( 'id',$address_id_in_companies_table )->first();
+        //$address1 = $address_id_in_companies_table->address1;
+        //$address2 = $address_id_in_address_table->address2;
+        //$city = $address_id_in_address_table->city;
+
+        return view( 'civiewform', [ 'companyname' => $companyname, 'registration_no' => $registration_no, 
+        //'address1' => $address1, 
+        //'address2' => $address2
+        ]  
+        );
     }
 }
