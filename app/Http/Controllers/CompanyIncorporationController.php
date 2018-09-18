@@ -35,11 +35,15 @@ class CompanyIncorporationController extends Controller
         $city = $address_id_in_address_table->city;
 
         // Name/ NIC number of any director
+        $companymembers = CompanyMembers::where('company_id',$id)->groupBy('id')->havingRaw('designation_type = 69')->get();
+        
+        //$registration_no = $companycertificate->registration_no;
 
         return view( 'civiewform', [ 'companyname' => $companyname, 'registration_no' => $registration_no, 
         'address1' => $address1, 
         'address2' => $address2,
-        'city' => $city
+        'city' => $city,
+        'companymembers' => $companymembers,
         ]  
         );
     }

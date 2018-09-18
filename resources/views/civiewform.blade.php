@@ -117,6 +117,14 @@
                             @endif
                             <br>
 
+                            <!--  Name/ NIC number of any director -->
+                            @if(!empty($companymembers))
+                                <label for="company_id"><b>Company Members</b></label>
+                                {{ $companymembers }}
+                            @else
+                                <label for="company_id"><b>Cegistration Mumber</b></label>
+                            @endif
+                            <br>
 
                         </div>
                     </div>
