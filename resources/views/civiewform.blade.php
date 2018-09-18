@@ -118,12 +118,10 @@
                             <br>
 
                             <!--  Name/ NIC number of any director -->
-                            @if(!empty($companymembers))
-                                <label for="company_id"><b>Company Members</b></label>
-                                {{ $companymembers }}
-                            @else
-                                <label for="company_id"><b>Cegistration Mumber</b></label>
-                            @endif
+                            <label for="company_id"><b>Registration Number</b></label>
+                            @foreach ($companymembers as $companymember)
+                                <p>This is user {{ $companymember->nic }}</p>
+                            @endforeach
                             <br>
 
                         </div>

@@ -37,6 +37,10 @@ class CompanyIncorporationController extends Controller
         // Name/ NIC number of any director
         $companymembers = CompanyMembers::where('company_id',$id)->groupBy('id')->havingRaw('designation_type = 69')->get();
         
+        // foreach($companymembers as $c)
+        // {
+        //     return $c->nic;
+        // }
         //$registration_no = $companycertificate->registration_no;
 
         return view( 'civiewform', [ 'companyname' => $companyname, 'registration_no' => $registration_no, 
