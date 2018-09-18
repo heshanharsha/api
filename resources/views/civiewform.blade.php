@@ -124,6 +124,25 @@
                             @endforeach
                             <br>
 
+                            <!-- location -->
+                            @if(!empty($location))
+                                <label for="company_id"><b>Location</b></label>
+                                {{ $location }}
+                            @else
+                                <label for="company_id"><b>Company Name</b></label>
+                             @endif
+                             <br>
+
+                            <!-- location -->
+                            @if(!empty($objective))
+                                <label for="company_id"><b>Nature of Business</b></label>
+                                {{ $objective }}
+                            @else
+                                <label for="company_id"><b>Company Name</b></label>
+                             @endif
+                             <br>
+                             
+
                         </div>
                     </div>
                 </div>

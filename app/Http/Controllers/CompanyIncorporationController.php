@@ -21,6 +21,9 @@ class CompanyIncorporationController extends Controller
         // company name
         $company = Companies::where( 'id',$id )->first();
         $companyname  = $company->name;
+        // Nature of Business(objective)
+        $objective  = $company->objective;
+
 
         // company registration number
         $companycertificate = CompanyCertificate::where('company_id',$id)->first();
@@ -33,6 +36,8 @@ class CompanyIncorporationController extends Controller
         $address1 = $address_id_in_address_table->address1;
         $address2 = $address_id_in_address_table->address2;
         $city = $address_id_in_address_table->city;
+        //Location
+        $location = $address_id_in_address_table->district;
 
         // Name/ NIC number of any director
         $companymembers = CompanyMembers::where('company_id',$id)->groupBy('id')->havingRaw('designation_type = 69')->get();
@@ -43,11 +48,16 @@ class CompanyIncorporationController extends Controller
         // }
         //$registration_no = $companycertificate->registration_no;
 
+        
+
+
         return view( 'civiewform', [ 'companyname' => $companyname, 'registration_no' => $registration_no, 
         'address1' => $address1, 
         'address2' => $address2,
         'city' => $city,
         'companymembers' => $companymembers,
+        'location' => $location,
+        'objective' => $objective,
         ]  
         );
     }
