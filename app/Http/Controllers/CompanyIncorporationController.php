@@ -40,13 +40,17 @@ class CompanyIncorporationController extends Controller
         $location = $address_id_in_address_table->district;
 
         // Name/ NIC number of any director
-        $companymembers = CompanyMembers::where('company_id',$id)->groupBy('id')->havingRaw('designation_type = 69')->get();
+        //$companymembers = CompanyMembers::where('company_id',$id)->groupBy('id')->havingRaw('designation_type = 69')->get();
+         $companymembers = CompanyMembers::where('company_id',$id)->where('designation_type',69)->get();
+
+
+        // Name/ Address and the Telephone Number of the company secretary
+        $companysecretary = CompanyMembers::where('company_id',$id)->where('designation_type',70)->first();
+        $secretaryfirstname = $companysecretary->first_name;
+        $secretarylastname = $companysecretary->last_name;
+        //$secretaryaddress = $companysecretary->address2;
+        //$secretarytelephone = $companysecretary->city;
         
-        // foreach($companymembers as $c)
-        // {
-        //     return $c->nic;
-        // }
-        //$registration_no = $companycertificate->registration_no;
 
         
 
@@ -58,6 +62,8 @@ class CompanyIncorporationController extends Controller
         'companymembers' => $companymembers,
         'location' => $location,
         'objective' => $objective,
+        'secretaryfirstname ' =>$secretaryfirstname,
+        'secretarylastname ' =>$secretarylastname,
         ]  
         );
     }

@@ -118,9 +118,16 @@
                             <br>
 
                             <!--  Name/ NIC number of any director -->
-                            <label for="company_id"><b>Registration Number</b></label>
+                            <label for="company_id"><b>NIC number of director/directors</b></label>
                             @foreach ($companymembers as $companymember)
-                                <p>This is user {{ $companymember->nic }}</p>
+                                <p>Director nic is {{ $companymember->nic }}</p>
+                            @endforeach
+                            <br>
+
+                            <!--  Telephone/ email/ Fax of the selected director.-->
+                            <label for="company_id"><b>Telephone/ email/ Fax of the selected director.</b></label>
+                            @foreach ($companymembers as $companymember)
+                                <p>This is Director Phonenumber and email: {{ $companymember->telephone }} {{ $companymember->email }}</p>
                             @endforeach
                             <br>
 
@@ -139,6 +146,15 @@
                                 {{ $objective }}
                             @else
                                 <label for="company_id"><b>Company Name</b></label>
+                             @endif
+                             <br>
+
+                             <!-- Name/ Address and the Telephone Number of the company secretary -->
+                            @if(!empty($secretaryfirstname))
+                                <label for="company_id"><b>Name/ Address and the Telephone Number of the company secretary</b></label>
+                                {{ $secretaryfirstname }} {{ $secretarylastname }}
+                            @else
+                                <label for="company_id"><b>if is not working</b></label>
                              @endif
                              <br>
                              
