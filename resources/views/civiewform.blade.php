@@ -150,13 +150,18 @@
                              <br>
 
                              <!-- Name/ Address and the Telephone Number of the company secretary -->
-                            @if(!empty($secretaryfirstname))
+                            <!-- @if(!empty($secretarylastname))
                                 <label for="company_id"><b>Name/ Address and the Telephone Number of the company secretary</b></label>
-                                {{ $secretaryfirstname }} {{ $secretarylastname }}
+                                {{ $secretarylastname }} 
                             @else
                                 <label for="company_id"><b>if is not working</b></label>
-                             @endif
-                             <br>
+                            @endif
+                            <br> -->
+                            
+                            <!--  Name/ Address and the Telephone Number of the company secretary using foreach -->
+                            
+                            
+
                              
 
                         </div>

@@ -41,13 +41,26 @@ class CompanyIncorporationController extends Controller
 
         // Name/ NIC number of any director
         //$companymembers = CompanyMembers::where('company_id',$id)->groupBy('id')->havingRaw('designation_type = 69')->get();
-         $companymembers = CompanyMembers::where('company_id',$id)->where('designation_type',69)->get();
+        $companymembers = CompanyMembers::where('company_id',$id)->where('designation_type',69)->get();
 
 
         // Name/ Address and the Telephone Number of the company secretary
-        $companysecretary = CompanyMembers::where('company_id',$id)->where('designation_type',70)->first();
-        $secretaryfirstname = $companysecretary->first_name;
-        $secretarylastname = $companysecretary->last_name;
+        //$companysecretary = CompanyMembers::where('company_id',$id)->where('designation_type',70)->first();
+
+        // $companysecraties = CompanyMembers::where('company_id',$id)->where('designation_type',70)->get();
+        // $addressarrays=[];
+        // foreach ($companysecraties as $companysecretary){
+        //     $addresse = Addresse::where( 'id',$companysecretary->address_id )->first();
+        //     $addressarrays[$companysecretary->address_id] = $addresse;
+        // }
+        // $secratiesfirstname=[];
+        // foreach ($companysecraties as $companysecretary){
+        //     $secratiesfirstname = CompanyMembers::where( 'company_id',$companysecretary->address_id )->first();
+        //     $addressarrays[$companysecretary->address_id] = $addresse;
+        // }
+
+        //$secretaryfirstname = $companysecretary->first_name;
+        //$secretarylastname = $companysecretary->last_name;
         //$secretaryaddress = $companysecretary->address2;
         //$secretarytelephone = $companysecretary->city;
         
@@ -62,8 +75,9 @@ class CompanyIncorporationController extends Controller
         'companymembers' => $companymembers,
         'location' => $location,
         'objective' => $objective,
-        'secretaryfirstname ' =>$secretaryfirstname,
-        'secretarylastname ' =>$secretarylastname,
+        //'companysecretary' => $companysecretary,
+        //'secretaryfirstname ' =>$secretaryfirstname,
+        //'secretarylastname ' =>$secretarylastname,
         ]  
         );
     }
