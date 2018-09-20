@@ -183,7 +183,14 @@ class CompanyIncorporationController extends Controller
 
     //......... Form D Annexure ..........//
     public function formDAnnexure( Request $request ){
+
+        //.......... Retrieve data from database and assign to variable ..........//
+
+        //..........XML -> Form D Annexure ..........//
+
         
+
+
 
     }
 
