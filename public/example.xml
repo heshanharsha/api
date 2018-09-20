@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompanyIncorporation><Header><username>username</username><password>password</password><checksum>20180909</checksum></Header><SendRegisteredCompanyFile><MainDetails><NameofEstablishment/><NatureofBusiness/><BusinessRegistrationNumber/><RegisteredAddress/><DistrictDivisionalSecretariat/><NameoftheproprietorNICnumber/><TelephoneemailFax/><NameofManager/></MainDetails></SendRegisteredCompanyFile></CompanyIncorporation>

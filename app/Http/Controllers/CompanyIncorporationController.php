@@ -21,6 +21,7 @@ class CompanyIncorporationController extends Controller
         // company name
         $company = Companies::where( 'id',$id )->first();
         $companyname  = $company->name;
+        $NameofEstablishment = $companyname;
         // Nature of Business(objective)
         $objective  = $company->objective;
 
@@ -45,7 +46,7 @@ class CompanyIncorporationController extends Controller
 
 
         // Name/ Address and the Telephone Number of the company secretary
-        //$companysecretary = CompanyMembers::where('company_id',$id)->where('designation_type',70)->first();
+        $companysecretary = CompanyMembers::where('company_id',$id)->where('designation_type',70)->first();
 
         // $companysecraties = CompanyMembers::where('company_id',$id)->where('designation_type',70)->get();
         // $addressarrays=[];
@@ -68,17 +69,68 @@ class CompanyIncorporationController extends Controller
         
 
 
-        return view( 'civiewform', [ 'companyname' => $companyname, 'registration_no' => $registration_no, 
-        'address1' => $address1, 
-        'address2' => $address2,
-        'city' => $city,
-        'companymembers' => $companymembers,
-        'location' => $location,
-        'objective' => $objective,
-        //'companysecretary' => $companysecretary,
-        //'secretaryfirstname ' =>$secretaryfirstname,
-        //'secretarylastname ' =>$secretarylastname,
-        ]  
-        );
+        // return view( 'civiewform', [ 'companyname' => $companyname, 'registration_no' => $registration_no, 
+        //  'address1' => $address1, 
+        //  'address2' => $address2,
+        //  'city' => $city,
+        //  'companymembers' => $companymembers,
+        //  'location' => $location,
+        //  'objective' => $objective,
+        // // //'companysecretary' => $companysecretary,
+        // // //'secretaryfirstname ' =>$secretaryfirstname,
+        // // //'secretarylastname ' =>$secretarylastname,
+        // ]  
+        // );
+
+        $createDate = new \DateTime($company->created_at);
+        $strip = $createDate->format('Y-m-d');
+        $num = str_replace('-', '', $strip);
+        $incoDate = (int) $num;
+        $companytypeid = $company->type_id;
+        $checksum = $incoDate+$companytypeid;
+        $xml = new \DOMDocument("1.0","UTF-8");
+        $container = $xml->createElement("CompanyIncorporation");
+        $container = $xml->appendChild($container);
+            $header = $xml->createElement("Header");
+            $container->appendChild($header);
+                $username = $xml->createElement("username","username");
+                $header->appendChild($username);
+                $password = $xml->createElement("password","password");
+                $header->appendChild($password);
+                $checksum = $xml->createElement("checksum",$checksum);
+                $header->appendChild($checksum);
+            $SendRegisteredCompanyFile = $xml->createElement("SendRegisteredCompanyFile");
+            $container->appendChild($SendRegisteredCompanyFile);
+                $maindetails = $xml->createElement("MainDetails");
+                $SendRegisteredCompanyFile->appendChild($maindetails);
+
+                    $NameofEstablishment = $xml->createElement("NameofEstablishment"); // Company Name
+                    $maindetails->appendChild($NameofEstablishment);
+
+                    $NatureofBusiness = $xml->createElement("NatureofBusiness"); // Nature of Business
+                    $maindetails->appendChild($NatureofBusiness);
+
+                    $BusinessRegistrationNumber = $xml->createElement("BusinessRegistrationNumber"); // Business Registration Number
+                    $maindetails->appendChild($BusinessRegistrationNumber);
+
+                    $RegisteredAddress = $xml->createElement("RegisteredAddress"); // Registered Address of the Company
+                    $maindetails->appendChild($RegisteredAddress);
+
+                    $DistrictDivisionalSecretariat = $xml->createElement("DistrictDivisionalSecretariat"); // Location
+                    $maindetails->appendChild($DistrictDivisionalSecretariat);
+
+                    $NameoftheproprietorNICnumber = $xml->createElement("NameoftheproprietorNICnumber"); // Name/ NIC number of any director
+                    $maindetails->appendChild($NameoftheproprietorNICnumber);
+
+                    $TelephoneemailFax = $xml->createElement("TelephoneemailFax"); // Telephone/ email/ Fax of the selected director
+                    $maindetails->appendChild($TelephoneemailFax);
+
+                    $NameofManager = $xml->createElement("NameofManager"); // Name/ Address and the Telephone Number of the company secretary
+                    $maindetails->appendChild($NameofManager);
+        $xml->FormatOutput = true;
+        $xml->saveXML();
+        $xml->save("example.xml");
+        $xml->load("example.xml");
+        dd($xml);
     }
 }
