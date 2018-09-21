@@ -179,8 +179,8 @@ class CompanyIncorporationController extends Controller
 
         $xml->FormatOutput = true;
         $xml->saveXML();
-        $xml->save("example.xml");
-        $xml->load("example.xml");
+        $xml->save("civiewform.xml");
+        $xml->load("civiewform.xml");
         dd($xml);
     }
 
@@ -275,12 +275,12 @@ class CompanyIncorporationController extends Controller
     //..................................................................................
     //..................................................................................
     
-    public function companyNameRegistrationNumberChangerView(  ) {
-		return view( 'companyNameRegistrationNumberChangerView' );
+    public function companyNameRegistrationNumberChangeView(  ) {
+		return view( 'companyNameRegistrationNumberChangeView' );
     }
 
     //......... Company Name registration Number Change ..........//
-    public function companyNameRegistrationNumberChanger( Request $request ){
+    public function companyNameRegistrationNumberChange( Request $request ){
 
         //.......... Company ID that manual enter from view .........//
         $id = $request->input( 'company_id' );
@@ -289,32 +289,38 @@ class CompanyIncorporationController extends Controller
 
         //..........XML -> Company Name registration Number Change ..........//
         $xml = new \DOMDocument("1.0","UTF-8");
-        $container = $xml->createElement("CompanyNameRegistrationNumberChangerView");
-        $CompanyNameRegistrationNumberChangerView = $xml->appendChild($container);
+        $container = $xml->createElement("CompanyNameRegistrationNumberChange");
+        $CompanyNameRegistrationNumberChange = $xml->appendChild($container);
             
             // BR Number
             $BRNumber = $xml->createElement("BRNumber"); 
-            $CompanyNameRegistrationNumberChangerView->appendChild($BRNumber);
+            $CompanyNameRegistrationNumberChange->appendChild($BRNumber);
 
             // New Name
             $NewName = $xml->createElement("NewName"); 
-            $CompanyNameRegistrationNumberChangerView->appendChild($NewName);
+            $CompanyNameRegistrationNumberChange->appendChild($NewName);
 
             // New Address
             $NewAddress = $xml->createElement("NewAddress"); 
-            $CompanyNameRegistrationNumberChangerView->appendChild($NewAddress);
+            $CompanyNameRegistrationNumberChange->appendChild($NewAddress);
 
             // New BR Number
             $NewBRNumber = $xml->createElement("NewBRNumber"); 
-            $CompanyNameRegistrationNumberChangerView->appendChild($NewBRNumber);
+            $CompanyNameRegistrationNumberChange->appendChild($NewBRNumber);
 
             // BR Certificate
             $BRCertificate = $xml->createElement("BRCertificate"); 
-            $CompanyNameRegistrationNumberChangerView->appendChild($BRCertificate);
+            $CompanyNameRegistrationNumberChange->appendChild($BRCertificate);
 
             // Date
             $Date = $xml->createElement("Date"); 
-            $CompanyNameRegistrationNumberChangerView->appendChild($Date);
+            $CompanyNameRegistrationNumberChange->appendChild($Date);
+
+            $xml->FormatOutput = true;
+            $xml->saveXML();
+            $xml->save("companyNameRegistrationNumberChange.xml");
+            $xml->load("companyNameRegistrationNumberChange.xml");
+            dd($xml);
     }
 
     //..................................................................................
@@ -367,6 +373,12 @@ class CompanyIncorporationController extends Controller
             // Date
             $Date = $xml->createElement("Date"); 
             $ChangeOfDirector->appendChild($Date);
+
+            $xml->FormatOutput = true;
+            $xml->saveXML();
+            $xml->save("ChangeOfDirector.xml");
+            $xml->load("ChangeOfDirector.xml");
+            dd($xml);
     }
 
     //..................................................................................
@@ -399,6 +411,12 @@ class CompanyIncorporationController extends Controller
             // Date
             $Date = $xml->createElement("Date"); 
             $Liquidation->appendChild($Date);
+
+            $xml->FormatOutput = true;
+            $xml->saveXML();
+            $xml->save("liquidation.xml");
+            $xml->load("liquidation.xml");
+            dd($xml);
     }
 
     //..................................................................................
@@ -430,7 +448,7 @@ class CompanyIncorporationController extends Controller
 
             // Effective Date
             $EffectiveDate = $xml->createElement("EffectiveDate"); 
-            $Liquidation->appendChild($EffectiveDate);
+            $Amalgamations->appendChild($EffectiveDate);
 
             // BR number of the amalgamated company
             $AmalgamatedCompanyBRNumber = $xml->createElement("AmalgamatedCompanyBRNumber"); 
@@ -439,6 +457,12 @@ class CompanyIncorporationController extends Controller
             // BR Certificate
             $BRCertificate = $xml->createElement("BRCertificate"); 
             $Amalgamations->appendChild($BRCertificate);
+
+            $xml->FormatOutput = true;
+            $xml->saveXML();
+            $xml->save("amalgamations.xml");
+            $xml->load("amalgamations.xml");
+            dd($xml);
     }
     
 

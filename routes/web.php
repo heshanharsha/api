@@ -34,3 +34,28 @@ Route::prefix( '/admin/' )->group( function () {
     Route::get( 'formDAnnexure', 'CompanyIncorporationController@formDAnnexure' )->name( 'admin-formDAnnexure' );
 } );
 
+// // Company Name registration Number Change
+Route::prefix( '/admin/' )->group( function () {
+    Route::get( 'companyNameRegistrationNumberChangeView', 'CompanyIncorporationController@companyNameRegistrationNumberChangeView' )->name( 'admin-companyNameRegistrationNumberChangeView' );
+    Route::get( 'companyNameRegistrationNumberChange', 'CompanyIncorporationController@companyNameRegistrationNumberChange' )->name( 'admin-companyNameRegistrationNumberChange' );
+} );
+
+// // Change of Director
+Route::prefix( '/admin/' )->group( function () {
+    Route::get( 'changeOfDirectorView', 'CompanyIncorporationController@changeOfDirectorView' )->name( 'admin-changeOfDirectorView' );
+    Route::get( 'changeOfDirector', 'CompanyIncorporationController@changeOfDirector' )->name( 'admin-changeOfDirector' );
+} );
+
+// // Liquidation/ Strike off
+Route::prefix( '/admin/' )->group( function () {
+    Route::get( 'liquidationView', 'CompanyIncorporationController@liquidationView' )->name( 'admin-liquidationView' );
+    Route::get( 'liquidation', 'CompanyIncorporationController@liquidation' )->name( 'admin-liquidation' );
+} );
+
+// // Amalgamations
+Route::prefix( '/admin/' )->group( function () {
+    Route::get( 'amalgamationsView', 'CompanyIncorporationController@amalgamationsView' )->name( 'admin-amalgamationsView' );
+    Route::get( 'amalgamations', 'CompanyIncorporationController@amalgamations' )->name( 'admin-amalgamations' );
+} );
+
+
