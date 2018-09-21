@@ -15,47 +15,40 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// testing
-Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'viewform', 'AdminController@viewform' )->name( 'admin-viewform' );
-    Route::get( 'getcompanydetails', 'AdminController@getcompanydetails' )->name( 'admin-getcompanydetails' );
-} );
-
-
 // company incoporation route
 Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'civiewform', 'CompanyIncorporationController@civiewform' )->name( 'admin-civiewform' );
-    Route::get( 'getcidetails', 'CompanyIncorporationController@getcidetails' )->name( 'admin-getcidetails' );
+    Route::get( 'companyIncorporationView', 'LaborDepartmentSystemController@companyIncorporationView' )->name( 'admin-companyIncorporationView' );
+    Route::get( 'companyIncorporation', 'LaborDepartmentSystemController@companyIncorporation' )->name( 'admin-companyIncorporation' );
 } );
 
 // Form D Annexure
 Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'formDAnnexureView', 'CompanyIncorporationController@formDAnnexureView' )->name( 'admin-formDAnnexureView' );
-    Route::get( 'formDAnnexure', 'CompanyIncorporationController@formDAnnexure' )->name( 'admin-formDAnnexure' );
+    Route::get( 'formDAnnexureView', 'LaborDepartmentSystemController@formDAnnexureView' )->name( 'admin-formDAnnexureView' );
+    Route::get( 'formDAnnexure', 'LaborDepartmentSystemController@formDAnnexure' )->name( 'admin-formDAnnexure' );
 } );
 
 // // Company Name registration Number Change
 Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'companyNameRegistrationNumberChangeView', 'CompanyIncorporationController@companyNameRegistrationNumberChangeView' )->name( 'admin-companyNameRegistrationNumberChangeView' );
-    Route::get( 'companyNameRegistrationNumberChange', 'CompanyIncorporationController@companyNameRegistrationNumberChange' )->name( 'admin-companyNameRegistrationNumberChange' );
+    Route::get( 'companyNameRegistrationNumberChangeView', 'LaborDepartmentSystemController@companyNameRegistrationNumberChangeView' )->name( 'admin-companyNameRegistrationNumberChangeView' );
+    Route::get( 'companyNameRegistrationNumberChange', 'LaborDepartmentSystemController@companyNameRegistrationNumberChange' )->name( 'admin-companyNameRegistrationNumberChange' );
 } );
 
 // // Change of Director
 Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'changeOfDirectorView', 'CompanyIncorporationController@changeOfDirectorView' )->name( 'admin-changeOfDirectorView' );
-    Route::get( 'changeOfDirector', 'CompanyIncorporationController@changeOfDirector' )->name( 'admin-changeOfDirector' );
+    Route::get( 'changeOfDirectorView', 'LaborDepartmentSystemController@changeOfDirectorView' )->name( 'admin-changeOfDirectorView' );
+    Route::get( 'changeOfDirector', 'LaborDepartmentSystemController@changeOfDirector' )->name( 'admin-changeOfDirector' );
 } );
 
 // // Liquidation/ Strike off
 Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'liquidationView', 'CompanyIncorporationController@liquidationView' )->name( 'admin-liquidationView' );
-    Route::get( 'liquidation', 'CompanyIncorporationController@liquidation' )->name( 'admin-liquidation' );
+    Route::get( 'liquidationView', 'LaborDepartmentSystemController@liquidationView' )->name( 'admin-liquidationView' );
+    Route::get( 'liquidation', 'LaborDepartmentSystemController@liquidation' )->name( 'admin-liquidation' );
 } );
 
 // // Amalgamations
 Route::prefix( '/admin/' )->group( function () {
-    Route::get( 'amalgamationsView', 'CompanyIncorporationController@amalgamationsView' )->name( 'admin-amalgamationsView' );
-    Route::get( 'amalgamations', 'CompanyIncorporationController@amalgamations' )->name( 'admin-amalgamations' );
+    Route::get( 'amalgamationsView', 'LaborDepartmentSystemController@amalgamationsView' )->name( 'admin-amalgamationsView' );
+    Route::get( 'amalgamations', 'LaborDepartmentSystemController@amalgamations' )->name( 'admin-amalgamations' );
 } );
 
 

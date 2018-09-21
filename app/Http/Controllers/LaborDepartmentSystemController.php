@@ -6,10 +6,11 @@ use App\Companies;
 use App\CompanyCertificate;
 use App\Addresses;
 use App\CompanyMembers;
+use App\Settings;
 
 use Illuminate\Http\Request;
 
-class CompanyIncorporationController extends Controller
+class LaborDepartmentSystemController extends Controller
 {   
 
     //..................................................................................
@@ -18,13 +19,13 @@ class CompanyIncorporationController extends Controller
     //..................................................................................
     //..................................................................................
 
-    public function civiewform(  ) {
-		return view( 'civiewform' );
+    public function companyIncorporationView(  ) {
+		return view( 'companyIncorporationView' );
     }
     
 
     //.......... Company Incorporation ..........//
-    public function getcidetails( Request $request ) {
+    public function companyIncorporation( Request $request ) {
 
         //.......... Company ID that manual enter from view .........//
         $id = $request->input( 'company_id' );
@@ -32,12 +33,16 @@ class CompanyIncorporationController extends Controller
 
         //.......... Retrieve data from database and assign to variable ..........//
 
-        // company name
+        // get relevent company id record
         $company = Companies::where( 'id',$id )->first();
+
+        // company name
         $companyname  = $company->name;
         
         // Nature of Business(objective)
-        $objective  = $company->objective;
+        $objective_id  = $company->objective; // get relevent company object code that unique to relevent company from company record
+        $settings = Settings::where('id',$objective_id)->first(); // map that object code to eroc_settings table and get that record
+        $objective = $settings->value; // get the objective valu in string format
 
         // Business  registration number
         $companycertificate = CompanyCertificate::where('company_id',$id)->first();
@@ -66,6 +71,10 @@ class CompanyIncorporationController extends Controller
         $xml = new \DOMDocument("1.0","UTF-8");
         $container = $xml->createElement("CompanyIncorporation");
         $CompanyIncorporation = $xml->appendChild($container);
+
+            // Name of Establishment
+            $NameOfEstablishment = $xml->createElement("NameOfEstablishment",$companyname); 
+            $CompanyIncorporation->appendChild($NameOfEstablishment);
             
             // Nature of Business
             $NatureofBusiness = $xml->createElement("NatureofBusiness",$objective); 
@@ -179,8 +188,8 @@ class CompanyIncorporationController extends Controller
 
         $xml->FormatOutput = true;
         $xml->saveXML();
-        $xml->save("civiewform.xml");
-        $xml->load("civiewform.xml");
+        $xml->save("CompanyIncorporation.xml");
+        $xml->load("CompanyIncorporation.xml");
         dd($xml);
     }
 

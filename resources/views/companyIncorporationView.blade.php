@@ -62,7 +62,7 @@
                 <h5>Company Incorparation details search</h5>
                 <div class="row">
                     <div class="col-md-8 offset-2">
-                        <form method="get" action="{{ route('admin-getcidetails') }}">
+                        <form method="get" action="{{ route('admin-companyIncorporation') }}">
                             <br>
                             <div class="row">
                                 <div class="col-md-4 offset-md-2">
