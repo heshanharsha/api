@@ -271,6 +271,54 @@ class CompanyIncorporationController extends Controller
 
     //..................................................................................
     //..................................................................................
+    //................Company Name registration Number Change...........................
+    //..................................................................................
+    //..................................................................................
+    
+    public function companyNameRegistrationNumberChangerView(  ) {
+		return view( 'companyNameRegistrationNumberChangerView' );
+    }
+
+    //......... Company Name registration Number Change ..........//
+    public function companyNameRegistrationNumberChanger( Request $request ){
+
+        //.......... Company ID that manual enter from view .........//
+        $id = $request->input( 'company_id' );
+
+        //.......... Retrieve data from database and assign to variable ..........//
+
+        //..........XML -> Company Name registration Number Change ..........//
+        $xml = new \DOMDocument("1.0","UTF-8");
+        $container = $xml->createElement("CompanyNameRegistrationNumberChangerView");
+        $CompanyNameRegistrationNumberChangerView = $xml->appendChild($container);
+            
+            // BR Number
+            $BRNumber = $xml->createElement("BRNumber"); 
+            $CompanyNameRegistrationNumberChangerView->appendChild($BRNumber);
+
+            // New Name
+            $NewName = $xml->createElement("NewName"); 
+            $CompanyNameRegistrationNumberChangerView->appendChild($NewName);
+
+            // New Address
+            $NewAddress = $xml->createElement("NewAddress"); 
+            $CompanyNameRegistrationNumberChangerView->appendChild($NewAddress);
+
+            // New BR Number
+            $NewBRNumber = $xml->createElement("NewBRNumber"); 
+            $CompanyNameRegistrationNumberChangerView->appendChild($NewBRNumber);
+
+            // BR Certificate
+            $BRCertificate = $xml->createElement("BRCertificate"); 
+            $CompanyNameRegistrationNumberChangerView->appendChild($BRCertificate);
+
+            // Date
+            $Date = $xml->createElement("Date"); 
+            $CompanyNameRegistrationNumberChangerView->appendChild($Date);
+    }
+
+    //..................................................................................
+    //..................................................................................
     //.............................Change of Director...................................
     //..................................................................................
     //..................................................................................
@@ -319,6 +367,78 @@ class CompanyIncorporationController extends Controller
             // Date
             $Date = $xml->createElement("Date"); 
             $ChangeOfDirector->appendChild($Date);
+    }
+
+    //..................................................................................
+    //..................................................................................
+    //.............................Liquidation/ Strike off...................................
+    //..................................................................................
+    //..................................................................................
+    
+    public function liquidationView(  ) {
+		return view( 'liquidationView' );
+    }
+
+    //......... Change of Director ..........//
+    public function liquidation( Request $request ){
+
+        //.......... Company ID that manual enter from view .........//
+        $id = $request->input( 'company_id' );
+
+        //.......... Retrieve data from database and assign to variable ..........//
+
+        //..........XML -> Liquidation/ Strike off ..........//
+        $xml = new \DOMDocument("1.0","UTF-8");
+        $container = $xml->createElement("Liquidation");
+        $Liquidation = $xml->appendChild($container);
+            
+            // BR Number
+            $BRNumber = $xml->createElement("BRNumber"); 
+            $Liquidation->appendChild($BRNumber);
+
+            // Date
+            $Date = $xml->createElement("Date"); 
+            $Liquidation->appendChild($Date);
+    }
+
+    //..................................................................................
+    //..................................................................................
+    //.............................Amalgamations...................................
+    //..................................................................................
+    //..................................................................................
+    
+    public function amalgamationsView(  ) {
+		return view( 'amalgamationsView' );
+    }
+
+    //......... Change of Director ..........//
+    public function amalgamations( Request $request ){
+
+        //.......... Company ID that manual enter from view .........//
+        $id = $request->input( 'company_id' );
+
+        //.......... Retrieve data from database and assign to variable ..........//
+
+        //..........XML -> Amalgamations ..........//
+        $xml = new \DOMDocument("1.0","UTF-8");
+        $container = $xml->createElement("Amalgamations");
+        $Amalgamations = $xml->appendChild($container);
+            
+            // BR Number of the closed company
+            $ClosedCompanyBRNumber = $xml->createElement("ClosedCompanyBRNumber"); 
+            $Amalgamations->appendChild($ClosedCompanyBRNumber);
+
+            // Effective Date
+            $EffectiveDate = $xml->createElement("EffectiveDate"); 
+            $Liquidation->appendChild($EffectiveDate);
+
+            // BR number of the amalgamated company
+            $AmalgamatedCompanyBRNumber = $xml->createElement("AmalgamatedCompanyBRNumber"); 
+            $Amalgamations->appendChild($AmalgamatedCompanyBRNumber);
+
+            // BR Certificate
+            $BRCertificate = $xml->createElement("BRCertificate"); 
+            $Amalgamations->appendChild($BRCertificate);
     }
     
 
