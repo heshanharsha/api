@@ -19,13 +19,15 @@ class LaborDepartmentSystemController extends Controller
     //..................................................................................
     //..................................................................................
 
-    public function companyIncorporationView(  ) {
+    public function companyIncorporationView(  ) 
+    {
 		return view( 'companyIncorporationView' );
     }
     
 
     //.......... Company Incorporation ..........//
-    public function companyIncorporation( Request $request ) {
+    public function companyIncorporation( Request $request ) 
+    {
 
         //.......... Company ID that manual enter from view .........//
         $id = $request->input( 'company_id' );
@@ -59,8 +61,13 @@ class LaborDepartmentSystemController extends Controller
         // Location
         $location = $address_id_in_address_table->district;
 
-        // Name/ NIC number of any director
-        $companymembers = CompanyMembers::where('company_id',$id)->where('designation_type',69)->get();
+        // Director record
+        $Directors = CompanyMembers::where('company_id',$id)->where('designation_type',69)->get();
+
+        // foreignDirectors
+        $foreignDirectors=[];
+        
+
 
         // Name/ Address and the Telephone Number of the company secretary
         $companysecretary = CompanyMembers::where('company_id',$id)->where('designation_type',70)->first();
@@ -77,8 +84,8 @@ class LaborDepartmentSystemController extends Controller
             $CompanyIncorporation->appendChild($NameOfEstablishment);
             
             // Nature of Business
-            $NatureofBusiness = $xml->createElement("NatureofBusiness",$objective); 
-            $CompanyIncorporation->appendChild($NatureofBusiness);
+            $NatureOfBusiness = $xml->createElement("NatureOfBusiness",$objective); 
+            $CompanyIncorporation->appendChild($NatureOfBusiness);
 
             // Business Registration Number
             $BusinessRegistrationNumber = $xml->createElement("BusinessRegistrationNumber",$registration_no); 
@@ -92,31 +99,51 @@ class LaborDepartmentSystemController extends Controller
             $DistrictDivisionalSecretariat = $xml->createElement("DistrictDivisionalSecretariat",$location); 
             $CompanyIncorporation->appendChild($DistrictDivisionalSecretariat);
 
+            
+            // NIC or Passport number of directors
+            // $DirectorsNICNumbers = $xml->createElement("DirectorsNICNumbers");
+            // $CompanyIncorporation->appendChild($DirectorsNICNumbers);
+
+            // Telephone/ emailof the selected director.
+            // $DirectorNICorPassport = $xml->createElement("DirectorNICorPassport");
+            // $CompanyIncorporation->appendChild($DirectorNICorPassport);
+
             $i=0;
+            foreach ($Directors as $Director){
+                $i=$i+1;
+                if((!$Director->nic))
+                {
+                    $DirectorNICorPassport = $xml->createElement("DirectorNICorPassport",$Director->passport_no." ".$Director->passport_issued_country); 
+                    $CompanyIncorporation->appendChild($DirectorNICorPassport);
+                        
+                        // Telephone/ email of the selected director.
+                        $EmailandPhone = $xml->createElement("EmailandPhone",$Director->telephone." ".$Director->email); // Name/ NIC number of any director
+                        $DirectorNICorPassport->appendChild($EmailandPhone);
 
-            // Name/ NIC number of any director
-            $DirectorsNICNumbers = $xml->createElement("DirectorsNICNumbers");
-            $CompanyIncorporation->appendChild($DirectorsNICNumbers);
+                        // Date of Incorporation
+                        $DateOfIncorporation = $xml->createElement("DateOfIncorporation",$company->created_at);
+                        $DirectorNICorPassport->appendChild($DateOfIncorporation);
+                
+                }
+                else
+                {   // Local Directors
+                    // NIC number of directors
+                    $DirectorNICorPassport = $xml->createElement("DirectorNICorPassport",$Director->nic); 
+                    $CompanyIncorporation->appendChild($DirectorNICorPassport);
 
-            foreach($companymembers as $companymember){
-                $i = $i+1;
-                    $NameoftheproprietorNICnumber = $xml->createElement("NameoftheproprietorNICnumber",$companymember->nic); 
-                    $DirectorsNICNumbers->appendChild($NameoftheproprietorNICnumber);
+                        // Telephone/ email of the selected director.
+                        $EmailandPhone = $xml->createElement("EmailandPhone",$Director->telephone." ".$Director->email); // Name/ NIC number of any director
+                        $DirectorNICorPassport->appendChild($EmailandPhone);
+
+                        // Date of Incorporation
+                        $DateOfIncorporation = $xml->createElement("DateOfIncorporation",$company->created_at);
+                        $DirectorNICorPassport->appendChild($DateOfIncorporation);
+                    
+                }
             }
             
-            // Telephone/ email/ Fax of the selected director.
-            $DirectorsTelephonesNumber = $xml->createElement("DirectorsTelephonesNumber");
-            $CompanyIncorporation->appendChild($DirectorsTelephonesNumber);
 
-            foreach($companymembers as $companymember){
-                $i = $i+1;
-                    $DirectorEmailPhoneFax = $xml->createElement("DirectorEmailPhoneFax",$companymember->telephone." ".$companymember->email); // Name/ NIC number of any director
-                    $DirectorsTelephonesNumber->appendChild($DirectorEmailPhoneFax);
-            }
-
-            // Date of Incorporation
-            $DateOfIncorporation = $xml->createElement("DateOfIncorporation",$company->created_at);
-            $CompanyIncorporation->appendChild($DateOfIncorporation);
+            
 
             // Name/ Address and the Telephone Number of the company secretary
             $SecratryDetails = $xml->createElement("SecratryDetails"); 
