@@ -61,16 +61,11 @@ class LaborDepartmentSystemController extends Controller
         // Location
         $location = $address_id_in_address_table->district;
 
-        // Director record
+        // All directors record
         $Directors = CompanyMembers::where('company_id',$id)->where('designation_type',69)->get();
 
-        // foreignDirectors
-        $foreignDirectors=[];
-        
-
-
-        // Name/ Address and the Telephone Number of the company secretary
-        $companysecretary = CompanyMembers::where('company_id',$id)->where('designation_type',70)->first();
+        // All secretaries record
+        $secretaries = CompanyMembers::where('company_id',$id)->where('designation_type',70)->get();
 
         
         //..........XML -> Company Incorporation..........//
@@ -99,51 +94,53 @@ class LaborDepartmentSystemController extends Controller
             $DistrictDivisionalSecretariat = $xml->createElement("DistrictDivisionalSecretariat",$location); 
             $CompanyIncorporation->appendChild($DistrictDivisionalSecretariat);
 
-            
-            // NIC or Passport number of directors
-            // $DirectorsNICNumbers = $xml->createElement("DirectorsNICNumbers");
-            // $CompanyIncorporation->appendChild($DirectorsNICNumbers);
+            // Directors Details
+            // Directors Date of Incorporation 
+            $createDate = new \DateTime($company->created_at);
+            $strip = $createDate->format('Y-m-d');
+            $directorDateOfIncorporation = str_replace('-', '', $strip);
 
-            // Telephone/ emailof the selected director.
-            // $DirectorNICorPassport = $xml->createElement("DirectorNICorPassport");
-            // $CompanyIncorporation->appendChild($DirectorNICorPassport);
 
-            $i=0;
             foreach ($Directors as $Director){
-                $i=$i+1;
+                
                 if((!$Director->nic))
-                {
+                {   
+                    // Foreign Director Details
+                    // Passport number and Issuing Country
                     $DirectorNICorPassport = $xml->createElement("DirectorNICorPassport",$Director->passport_no." ".$Director->passport_issued_country); 
                     $CompanyIncorporation->appendChild($DirectorNICorPassport);
                         
-                        // Telephone/ email of the selected director.
+                        // Telephone/ email of the above directors.
                         $EmailandPhone = $xml->createElement("EmailandPhone",$Director->telephone." ".$Director->email); // Name/ NIC number of any director
                         $DirectorNICorPassport->appendChild($EmailandPhone);
 
-                        // Date of Incorporation
-                        $DateOfIncorporation = $xml->createElement("DateOfIncorporation",$company->created_at);
+                        // Date of Incorporation 
+                        $DateOfIncorporation = $xml->createElement("DateOfIncorporation",$directorDateOfIncorporation);
                         $DirectorNICorPassport->appendChild($DateOfIncorporation);
                 
                 }
                 else
-                {   // Local Directors
+                {   
+                    // Local Directors
                     // NIC number of directors
                     $DirectorNICorPassport = $xml->createElement("DirectorNICorPassport",$Director->nic); 
                     $CompanyIncorporation->appendChild($DirectorNICorPassport);
 
-                        // Telephone/ email of the selected director.
+                        // Telephone/ email of the above directors.
                         $EmailandPhone = $xml->createElement("EmailandPhone",$Director->telephone." ".$Director->email); // Name/ NIC number of any director
                         $DirectorNICorPassport->appendChild($EmailandPhone);
 
                         // Date of Incorporation
-                        $DateOfIncorporation = $xml->createElement("DateOfIncorporation",$company->created_at);
+                        $DateOfIncorporation = $xml->createElement("DateOfIncorporation",$directorDateOfIncorporation);
                         $DirectorNICorPassport->appendChild($DateOfIncorporation);
                     
                 }
             }
             
 
-            
+            foreach($secretaries as $secretary){
+
+            }
 
             // Name/ Address and the Telephone Number of the company secretary
             $SecratryDetails = $xml->createElement("SecratryDetails"); 
@@ -154,11 +151,11 @@ class LaborDepartmentSystemController extends Controller
                 $SecratryDetails->appendChild($SecratyName);
 
                     // First Name of the company secretary
-                    $SecratyFirstName = $xml->createElement("SecratyFirstName",$companysecretary->first_name); 
+                    $SecratyFirstName = $xml->createElement("SecratyFirstName",$secretary->first_name); 
                     $SecratyName->appendChild($SecratyFirstName);
 
                     // Last Name of the company secretary
-                    $SecratyLastName = $xml->createElement("SecratyLastName",$companysecretary->last_name); 
+                    $SecratyLastName = $xml->createElement("SecratyLastName",$secretary->last_name); 
                     $SecratyName->appendChild($SecratyLastName);
 
                 // Address of the company secretary
