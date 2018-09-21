@@ -28,3 +28,9 @@ Route::prefix( '/admin/' )->group( function () {
     Route::get( 'getcidetails', 'CompanyIncorporationController@getcidetails' )->name( 'admin-getcidetails' );
 } );
 
+// Form D Annexure
+Route::prefix( '/admin/' )->group( function () {
+    Route::get( 'formDAnnexureView', 'CompanyIncorporationController@formDAnnexureView' )->name( 'admin-formDAnnexureView' );
+    Route::get( 'formDAnnexure', 'CompanyIncorporationController@formDAnnexure' )->name( 'admin-formDAnnexure' );
+} );
+

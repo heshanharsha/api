@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class CompanyIncorporationController extends Controller
 {   
+
+    //..................................................................................
+    //..................................................................................
+    //............................Company Incorporation.................................
+    //..................................................................................
+    //..................................................................................
+
     public function civiewform(  ) {
 		return view( 'civiewform' );
     }
@@ -177,6 +184,12 @@ class CompanyIncorporationController extends Controller
         dd($xml);
     }
 
+    //..................................................................................
+    //..................................................................................
+    //...............................Form D Annexure....................................
+    //..................................................................................
+    //..................................................................................
+
     public function formDAnnexureView(  ) {
 		return view( 'formDAnnexureView' );
     }
@@ -184,14 +197,129 @@ class CompanyIncorporationController extends Controller
     //......... Form D Annexure ..........//
     public function formDAnnexure( Request $request ){
 
+        //.......... Company ID that manual enter from view .........//
+        $id = $request->input( 'company_id' );
+
         //.......... Retrieve data from database and assign to variable ..........//
 
         //..........XML -> Form D Annexure ..........//
 
-        
+        $xml = new \DOMDocument("1.0","UTF-8");
+        $container = $xml->createElement("FormDAnnexure");
+        $FormDAnnexure = $xml->appendChild($container);
+            
+            // Name of Establishment (Company Name)
+            $NameOfEstablishment = $xml->createElement("NameOfEstablishment"); 
+            $FormDAnnexure->appendChild($NameOfEstablishment);
+
+            // Employee Details
+            $EmployeeDetails = $xml->createElement("EmployeeDetails"); 
+            $FormDAnnexure->appendChild($EmployeeDetails);
+
+                // Employee Name
+                $EmployeeName = $xml->createElement("EmployeeName"); 
+                $EmployeeDetails->appendChild($EmployeeName);
+
+                // Date of Appointment
+                $DateOfAppointment = $xml->createElement("DateOfAppointment"); 
+                $EmployeeDetails->appendChild($DateOfAppointment);
+
+                // Salary of That Date
+                $SalaryOfThatDate = $xml->createElement("SalaryOfThatDate"); 
+                $EmployeeDetails->appendChild($SalaryOfThatDate);
+
+                // Nature of Employment
+                $NatureOfEmployment = $xml->createElement("NatureOfEmployment"); 
+                $EmployeeDetails->appendChild($NatureOfEmployment);
+
+                // Age of Employee on that date
+                $AgeOfEmployeeOnThatDate = $xml->createElement("AgeOfEmployeeOnThatDate"); 
+                $EmployeeDetails->appendChild($AgeOfEmployeeOnThatDate);
+
+                // ID number
+                $IDNumber = $xml->createElement("IDNumber"); 
+                $EmployeeDetails->appendChild($IDNumber);
+
+                // Personal Address
+                $PersonalAddress = $xml->createElement("PersonalAddress"); 
+                $EmployeeDetails->appendChild($PersonalAddress);
+            
+            // Personal Address of the employer
+            $PersonalAddressOfTheEmployer = $xml->createElement("PersonalAddressOfTheEmployer"); 
+            $FormDAnnexure->appendChild($PersonalAddressOfTheEmployer);
+
+            // Date of Incorporation
+            $DateOfIncorporation = $xml->createElement("DateOfIncorporation"); 
+            $FormDAnnexure->appendChild($DateOfIncorporation);
+
+            // Earlier EPF number
+            $EarlierEPFNumber = $xml->createElement("EarlierEPFNumber"); 
+            $FormDAnnexure->appendChild($EarlierEPFNumber);
+
+            // Number of employees
+            $NumberOfEmployees = $xml->createElement("NumberOfEmployees"); 
+            $FormDAnnexure->appendChild($NumberOfEmployees);
 
 
+            $xml->FormatOutput = true;
+            $xml->saveXML();
+            $xml->save("formDAnnexure.xml");
+            $xml->load("formDAnnexure.xml");
+            dd($xml);
 
     }
+
+    //..................................................................................
+    //..................................................................................
+    //.............................Change of Director...................................
+    //..................................................................................
+    //..................................................................................
+    
+    public function changeOfDirectorView(  ) {
+		return view( 'changeOfDirectorView' );
+    }
+
+    //......... Change of Director ..........//
+    public function changeOfDirector( Request $request ){
+
+        //.......... Company ID that manual enter from view .........//
+        $id = $request->input( 'company_id' );
+
+        //.......... Retrieve data from database and assign to variable ..........//
+
+        //..........XML -> Change of Director ..........//
+        $xml = new \DOMDocument("1.0","UTF-8");
+        $container = $xml->createElement("ChangeOfDirector");
+        $ChangeOfDirector = $xml->appendChild($container);
+            
+            // BR Number
+            $BRNumber = $xml->createElement("BRNumber"); 
+            $ChangeOfDirector->appendChild($BRNumber);
+
+            // Add or Remove
+            $AddOrRemove = $xml->createElement("AddOrRemove"); 
+            $ChangeOfDirector->appendChild($AddOrRemove);
+
+            // Name of Director
+            $NameOfDirector = $xml->createElement("NameOfDirector"); 
+            $ChangeOfDirector->appendChild($NameOfDirector);
+
+            // Address of Director
+            $AddressOfDirector = $xml->createElement("AddressOfDirector"); 
+            $ChangeOfDirector->appendChild($AddressOfDirector);
+
+            // NIC/ Passport Number
+            $NICOrPassportNumber = $xml->createElement("NICOrPassportNumber"); 
+            $ChangeOfDirector->appendChild($NICOrPassportNumber);
+
+                // passport issuing country
+                $PassportIssuingCountry = $xml->createElement("PassportIssuingCountry"); 
+                $NICOrPassportNumber->appendChild($PassportIssuingCountry);
+
+            // Date
+            $Date = $xml->createElement("Date"); 
+            $ChangeOfDirector->appendChild($Date);
+    }
+    
 
 }
