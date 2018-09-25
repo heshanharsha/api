@@ -39,7 +39,12 @@ class LaborDepartmentSystemController extends Controller
         $company = Companies::where( 'id',$id )->first();
 
         // company name
-        $companyname  = $company->name;
+        if(strrchr($company->name, "&")==false){
+            $companyname  = $company->name;
+        }else{
+            $companyname  = str_replace('&','&amp;', $company->name);
+        }
+        
         
         // Nature of Business(objective)
         $objective_id  = $company->objective; // get relevent company object code that unique to relevent company from company record
@@ -66,6 +71,8 @@ class LaborDepartmentSystemController extends Controller
 
         // All secretaries record
         $secretaries = CompanyMembers::where('company_id',$id)->where('designation_type',70)->get();
+ 
+
 
         
         //..........XML -> Company Incorporation..........//
@@ -100,6 +107,7 @@ class LaborDepartmentSystemController extends Controller
             $strip = $createDate->format('Y-m-d');
             $directorDateOfIncorporation = str_replace('-', '', $strip);
 
+            
 
             foreach ($Directors as $Director){
                 
@@ -139,44 +147,50 @@ class LaborDepartmentSystemController extends Controller
             
 
             foreach($secretaries as $secretary){
+                // pick the induvidual Secratary address id
+                $secretaryAddID = $secretary->address_id;
+                // map secretaryAddID to address table
+                $secretatyAddRecord = Addresses::where('id',$secretaryAddID)->first();
+
+                // Name/ Address and the Telephone Number of the company secretary
+                $SecratryDetails = $xml->createElement("SecratryDetails"); 
+                $CompanyIncorporation->appendChild($SecratryDetails);
+
+                    // Name of the company secretary
+                    $Name = $xml->createElement("Name"); 
+                    $SecratryDetails->appendChild($Name);
+
+                        // First Name of the company secretary
+                        $FirstName = $xml->createElement("FirstName",$secretary->first_name); 
+                        $Name->appendChild($FirstName);
+
+                        // Last Name of the company secretary
+                        $LastName = $xml->createElement("LastName",$secretary->last_name); 
+                        $Name->appendChild($LastName);
+
+                // Address of the company secretary
+                $Address = $xml->createElement("Address"); 
+                $SecratryDetails->appendChild($Address);
+                    
+                    // Address Line 1 of the company secretary
+                    $AddressLine1 = $xml->createElement("AddressLine1",$secretatyAddRecord->address1); 
+                    $Address->appendChild($AddressLine1);
+
+                    // Address Line 2 of the company secretary
+                    $Addressline2 = $xml->createElement("Addressline2",$secretatyAddRecord->address2); 
+                    $Address->appendChild($Addressline2);
+
+                    // city of the company secretary
+                    $City = $xml->createElement("City",$secretatyAddRecord->city); 
+                    $Address->appendChild($City);
+
+                // Telephone Number of the company secretary
+                $Telephone = $xml->createElement("Telephone",$secretary->telephone); 
+                $SecratryDetails->appendChild($Telephone);
 
             }
 
-            // Name/ Address and the Telephone Number of the company secretary
-            $SecratryDetails = $xml->createElement("SecratryDetails"); 
-            $CompanyIncorporation->appendChild($SecratryDetails);
 
-                // Name of the company secretary
-                $SecratyName = $xml->createElement("SecratyName"); 
-                $SecratryDetails->appendChild($SecratyName);
-
-                    // First Name of the company secretary
-                    $SecratyFirstName = $xml->createElement("SecratyFirstName",$secretary->first_name); 
-                    $SecratyName->appendChild($SecratyFirstName);
-
-                    // Last Name of the company secretary
-                    $SecratyLastName = $xml->createElement("SecratyLastName",$secretary->last_name); 
-                    $SecratyName->appendChild($SecratyLastName);
-
-                // Address of the company secretary
-                $SecretaryAddress = $xml->createElement("SecretaryAddress"); 
-                $SecratryDetails->appendChild($SecretaryAddress);
-                    
-                    // Address Line 1 of the company secretary
-                    $SecretaryAddress1 = $xml->createElement("SecretaryAddress1",$companysecretary->last_name); 
-                    $SecretaryAddress->appendChild($SecretaryAddress1);
-
-                    // Address Line 2 of the company secretary
-                    $SecretaryAddress2 = $xml->createElement("SecretaryAddress2",$companysecretary->last_name); 
-                    $SecretaryAddress->appendChild($SecretaryAddress2);
-
-                    // city of the company secretary
-                    $SecretaryCity = $xml->createElement("SecretaryCity",$companysecretary->last_name); 
-                    $SecretaryAddress->appendChild($SecretaryCity);
-
-                // Telephone Number of the company secretary
-                $SecratyTelephone = $xml->createElement("SecratyTelephone",$companysecretary->telephone); 
-                $SecratryDetails->appendChild($SecratyTelephone);
 
             // Total Number of Employees
             $TotalNumberofEmployees = $xml->createElement("TotalNumberofEmployees"); 
@@ -234,6 +248,14 @@ class LaborDepartmentSystemController extends Controller
         $id = $request->input( 'company_id' );
 
         //.......... Retrieve data from database and assign to variable ..........//
+        // get relevent company id record
+        $company = Companies::where( 'id',$id )->first();
+        // company name
+        if(strrchr($company->name, "&")==false){
+            $companyname  = $company->name;
+        }else{
+            $companyname  = str_replace('&','&amp;', $company->name);
+        }
 
         //..........XML -> Form D Annexure ..........//
 
@@ -242,7 +264,7 @@ class LaborDepartmentSystemController extends Controller
         $FormDAnnexure = $xml->appendChild($container);
             
             // Name of Establishment (Company Name)
-            $NameOfEstablishment = $xml->createElement("NameOfEstablishment"); 
+            $NameOfEstablishment = $xml->createElement("NameOfEstablishment",$companyname); 
             $FormDAnnexure->appendChild($NameOfEstablishment);
 
             // Employee Details
@@ -318,7 +340,14 @@ class LaborDepartmentSystemController extends Controller
         //.......... Company ID that manual enter from view .........//
         $id = $request->input( 'company_id' );
 
+
         //.......... Retrieve data from database and assign to variable ..........//
+
+        // Business  registration number
+        $companycertificate = CompanyCertificate::where('company_id',$id)->first();
+        $registration_no = $companycertificate->registration_no;
+
+
 
         //..........XML -> Company Name registration Number Change ..........//
         $xml = new \DOMDocument("1.0","UTF-8");
@@ -326,7 +355,7 @@ class LaborDepartmentSystemController extends Controller
         $CompanyNameRegistrationNumberChange = $xml->appendChild($container);
             
             // BR Number
-            $BRNumber = $xml->createElement("BRNumber"); 
+            $BRNumber = $xml->createElement("BRNumber",$registration_no); 
             $CompanyNameRegistrationNumberChange->appendChild($BRNumber);
 
             // New Name
@@ -373,6 +402,11 @@ class LaborDepartmentSystemController extends Controller
         $id = $request->input( 'company_id' );
 
         //.......... Retrieve data from database and assign to variable ..........//
+        // Business  registration number
+        $companycertificate = CompanyCertificate::where('company_id',$id)->first();
+        $registration_no = $companycertificate->registration_no;
+
+
 
         //..........XML -> Change of Director ..........//
         $xml = new \DOMDocument("1.0","UTF-8");
@@ -380,7 +414,7 @@ class LaborDepartmentSystemController extends Controller
         $ChangeOfDirector = $xml->appendChild($container);
             
             // BR Number
-            $BRNumber = $xml->createElement("BRNumber"); 
+            $BRNumber = $xml->createElement("BRNumber",$registration_no); 
             $ChangeOfDirector->appendChild($BRNumber);
 
             // Add or Remove
@@ -431,6 +465,10 @@ class LaborDepartmentSystemController extends Controller
         $id = $request->input( 'company_id' );
 
         //.......... Retrieve data from database and assign to variable ..........//
+        // Business  registration number
+        $companycertificate = CompanyCertificate::where('company_id',$id)->first();
+        $registration_no = $companycertificate->registration_no;
+
 
         //..........XML -> Liquidation/ Strike off ..........//
         $xml = new \DOMDocument("1.0","UTF-8");
@@ -438,7 +476,7 @@ class LaborDepartmentSystemController extends Controller
         $Liquidation = $xml->appendChild($container);
             
             // BR Number
-            $BRNumber = $xml->createElement("BRNumber"); 
+            $BRNumber = $xml->createElement("BRNumber",$registration_no); 
             $Liquidation->appendChild($BRNumber);
 
             // Date
@@ -462,13 +500,16 @@ class LaborDepartmentSystemController extends Controller
 		return view( 'amalgamationsView' );
     }
 
-    //......... Change of Director ..........//
+    //......... Amalgamations ..........//
     public function amalgamations( Request $request ){
 
         //.......... Company ID that manual enter from view .........//
         $id = $request->input( 'company_id' );
 
         //.......... Retrieve data from database and assign to variable ..........//
+        // Business  registration number
+        $companycertificate = CompanyCertificate::where('company_id',$id)->first();
+        $registration_no = $companycertificate->registration_no;
 
         //..........XML -> Amalgamations ..........//
         $xml = new \DOMDocument("1.0","UTF-8");
@@ -476,7 +517,7 @@ class LaborDepartmentSystemController extends Controller
         $Amalgamations = $xml->appendChild($container);
             
             // BR Number of the closed company
-            $ClosedCompanyBRNumber = $xml->createElement("ClosedCompanyBRNumber"); 
+            $ClosedCompanyBRNumber = $xml->createElement("ClosedCompanyBRNumber",$registration_no); 
             $Amalgamations->appendChild($ClosedCompanyBRNumber);
 
             // Effective Date
